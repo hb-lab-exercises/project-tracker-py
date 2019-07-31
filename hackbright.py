@@ -138,6 +138,12 @@ def handle_input():
             title = args[0]
             get_project_by_title(title)
 
+        elif command == "grade":
+            github = args.pop(0)
+            grade = args.pop(-1)
+            title = " ".join(args)
+            assign_grade(github, title, grade)
+
         else:
             if command != "quit":
                 print("Invalid Entry. Try again.")
@@ -146,7 +152,7 @@ def handle_input():
 if __name__ == "__main__":
     connect_to_db(app)
 
-    # handle_input()
+    handle_input()
 
     # To be tidy, we close our database connection -- though,
     # since this is where our program ends, we'd quit anyway.
