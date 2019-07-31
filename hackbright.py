@@ -53,7 +53,7 @@ def make_new_student(first_name, last_name, github):
         "github":github 
         })
 
-    #db.session.commit()
+    db.session.commit()
 
     print(f"Successfully added student: {first_name} {last_name}")
 
@@ -91,12 +91,25 @@ def get_grade_by_github_title(github, title):
     grade = db_cursor.fetchone()[0]
 
     print(f"The grade for {github}'s project {title} is {grade}.\n")
-    
+
 
 def assign_grade(github, title, grade):
     """Assign a student a grade on an assignment and print a confirmation."""
-    pass
+    
+    sql = """
+        INSERT INTO grades (grade, student_github, project_title)
+        VALUES (:grade, :github, :title)
+    """
 
+    db.session.execute(sql, {
+        'grade': grade,
+        'github': github,
+        'title': title
+        })
+
+    print(f"Successfully added {grade} to grades for {title} for {github}")
+
+    db.session.commit()
 
 def handle_input():
     """Main loop.
